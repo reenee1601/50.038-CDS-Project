@@ -5,7 +5,7 @@ import torchvision.transforms as transforms
 import numpy as np
 import pickle
 import process_image as pi  # Assuming process_image.py contains your image processing logic
-
+from MultiInputModel import MultiInputModel
 # Define the class names for predictions
 class_names = {
     0: 'Dermatofibroma',
@@ -17,14 +17,15 @@ class_names = {
     6: 'Actinic keratoses and intraepithelial carcinoma / Bowen\'s disease'
 }
 
-
-
+# Load the model
+# Load the model
 def load_model(model_path):
-    return torch.load(model_path, map_location=torch.device('cpu'))
-
+    model = MultiInputModel()
+    model.load_state_dict(torch.load(model_path, map_location=torch.device('cpu')))
+    return model
 
 # Load the model
-model_path = "Best_multi_input_model.pkl"  # Update with your model path
+model_path = "Best_multi_input_model.pth"  # Update with your model path
 model = load_model(model_path)
 
 def predict(image, age_input, gender_input, localization_input, model):
